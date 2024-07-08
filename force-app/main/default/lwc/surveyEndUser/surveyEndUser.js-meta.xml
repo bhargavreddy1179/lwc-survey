@@ -5,6 +5,5 @@
     <targets>
       <target>lightning__AppPage</target>
       <target>lightningCommunity__Page</target>
-      <target>lightningCommunity__Page_Layout</target>
     </targets>
 </LightningComponentBundle>

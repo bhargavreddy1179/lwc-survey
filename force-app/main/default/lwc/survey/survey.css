@@ -8,3 +8,8 @@
 .slds-m-top_custome {
    margin-top: 1.25rem;
 }
+
+.borderbox {
+   padding: 10px;
+   border: 1px solid black;
+}

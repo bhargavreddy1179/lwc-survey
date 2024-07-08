@@ -4,159 +4,188 @@
         <lightning-tab label="Questions">
            <div class="slds-var-m-around_medium">
               <lightning-card title="Survey (Admin pov)">
-                    <div class="slds-m-around_medium">
-                       <template for:each={questions} for:item="question" for:index="questionIndex">
-                          <div key={question.id}>
-                             <lightning-input data-id={questionIndex} type="text" label="Enter Question" value={question.text} onchange={handleSaveChanges}></lightning-input>
-                             <lightning-combobox
-                                data-id={questionIndex}
-                                name="inputState"
-                                label="Choose Input type"
-                                value={question.inputType}
-                                options={options}
-                                onchange={handleInputTypeChange} ></lightning-combobox>
-                 
-                             <template lwc:if = {question.isTextField}>
-                                <lightning-input type="text" label="Response" placeholder="Short Answer Text" disabled="true"></lightning-input>
-                             </template>
-                 
-                 
-                             <template lwc:elseif = {question.isNumberField}>
-                                <lightning-input type="number" label="Response" placeholder="Number Answer" disabled="true"></lightning-input>
-                             </template>
-                 
-                 
-                             <template lwc:elseif = {question.isRadioField}> 
-                                <template for:each = {question.radioChoices} for:item="radio" for:index="radioIndex">
-                                   <div key={question.id}>
-                                      <div class="slds-grid slds-wrap">
-                                         <div class="slds-col slds-size_1-of-12">
-                                            <span>
-                                               <div class="slds-m-top_large slds-m-left_large">
-                                                  <lightning-input type="radio" disabled></lightning-input>
-                                               </div>
-                                            </span>
-                                         </div>
-                                         <div class="slds-col slds-size_10-of-12">
-                                            <span>
-                                               <lightning-input data-id={questionIndex} data-rad = {radioIndex} type="text" value={radio.value} onchange={handleRadioChange}></lightning-input>
-                                            </span>
-                                         </div>
-                                         <div class="slds-col slds-size_1-of-12">
-                                            <span>
-                                               <div class="slds-m-top_custome slds-m-left_large">
-                                                  <lightning-button data-id={questionIndex} data-rad = {radioIndex} variant="destructive" label="X" onclick={handleDeleteRadio} ></lightning-button>
-                                               </div>
-                                            </span>
-                                         </div>
-                                      </div>   
-                                      
-                                   </div>
-                                </template>
-                                <div class="slds-m-around_medium slds-align_absolute-center">
-                                   <lightning-button data-id={questionIndex} variant="brand" label="+" onclick={handleAddRadio} ></lightning-button>
-                                </div>
-                                
-                             </template>
-                 
-                 
-                             <template lwc:elseif = {question.isCheckBoxField}> 
-                                <template for:each = {question.checkBoxChoices} for:item="checkBox" for:index="checkBoxIndex">
-                                   <div key={question.id}>
-                                      <div class="slds-grid slds-wrap">
-                                         <div class="slds-col slds-size_1-of-12">
-                                            <span>
-                                               <div class="slds-m-top_large slds-m-left_large">
-                                                  <lightning-input type="checkbox" disabled></lightning-input>
-                                               </div>
-                                               
-                                            </span>
-                                         </div>
-                                         <div class="slds-col slds-size_10-of-12">
-                                            <span>
-                                               <lightning-input data-id={questionIndex} data-check = {checkBoxIndex} type="text" value={checkBox.value} onchange={handleCheckBoxChange}></lightning-input>
-                                            </span>
-                                         </div>
-                                         <div class="slds-col slds-size_1-of-12">
-                                            <span>
-                                               <div class="slds-m-top_custome slds-m-left_large">
-                                                  <lightning-button data-id={questionIndex} data-check = {checkBoxIndex} variant="destructive" label="X" onclick={handleDeleteCheckBox} ></lightning-button>
-                                               </div>
-                                            </span>
-                                         </div>
-                                      </div>
-                                   </div>
-                                </template>
-                                <div class="slds-m-around_medium slds-align_absolute-center">
-                                   <lightning-button data-id={questionIndex} variant="brand" label="+" onclick={handleAddCheckBox} ></lightning-button>
-                                </div>
-                                
-                             </template>
-                 
-                             <template lwc:elseif = {question.isRatingField}>
-                                <lightning-input data-id={questionIndex} type="number" label="Min Scale" onchange={handleMinScale} value={question.minScale}></lightning-input>
-                                <lightning-input data-id={questionIndex} type="number" label="Max Scale" onchange={handleMaxScale} value={question.maxScale}></lightning-input>
-                             </template>
-                             <div class="slds-m-around_medium slds-align_absolute-center">
-                                <div class="slds-form-element">
-                                   <label class="slds-checkbox_toggle slds-grid">
-                                     <span class="slds-form-element__label slds-m-bottom_none">Required</span>
-                                     <input type="checkbox" data-id={questionIndex} value="checkbox-toggle-16" onchange={handleMandate} />
-                                     <span id="checkbox-toggle-16" class="slds-checkbox_faux_container">
-                                       <span class="slds-checkbox_faux"></span>
-                                       <span class="slds-checkbox_on">Enabled</span>
-                                       <span class="slds-checkbox_off">Disabled</span>
-                                     </span>
-                                   </label>
-                                </div>
-                             </div>
-                             
-                 
-                             <div class="slds-m-around_medium">
-                                <lightning-button data-id={questionIndex} variant="destructive" label="Delete this Question" onclick={handleDeleteQuestion} ></lightning-button>
-                             </div>
-                             
-                             
-                          </div>
-                       </template>
-                 
-                       <lightning-button variant="brand" label="Add Question" onclick={handleAddQuestion} class="slds-m-around_medium"></lightning-button>
-                       <lightning-button variant="brand" label="Save Questions" onclick={sendData} class="slds-m-around_medium"></lightning-button>
+                  <div class="slds-var-m-around_medium">
+                     <lightning-input value={title} type="text" onchange={handleTitleChange}></lightning-input>
+                  </div>
+                  <div>
+                     <template for:each={pages} for:item="page" for:index="pageIndex">
+                        <div key={page.id} class="slds-m-around_medium borderbox">
+                           <template for:each={page.questions} for:item="question" for:index="questionIndex">
+                              <div key={question.id}>
+                                 <lightning-input data-page={pageIndex} data-id={questionIndex} type="text" label="Enter Question" onchange={handleSaveChanges}></lightning-input>
+                                 <lightning-combobox
+                                    data-page={pageIndex}
+                                    data-id={questionIndex}
+                                    name="inputState"
+                                    label="Choose Input type"
+                                    value={question.inputType}
+                                    options={options}
+                                    onchange={handleInputTypeChange} ></lightning-combobox>
+                     
+                                 <template lwc:if = {question.isTextField}>
+                                    <lightning-input type="text" label="Response" placeholder="Short Answer Text" disabled="true"></lightning-input>
+                                 </template>
+                     
+                     
+                                 <template lwc:elseif = {question.isNumberField}>
+                                    <lightning-input type="number" label="Response" placeholder="Number Answer" disabled="true"></lightning-input>
+                                 </template>
+                     
+                     
+                                 <template lwc:elseif = {question.isRadioField}> 
+                                    <template for:each = {question.radioChoices} for:item="radio" for:index="radioIndex">
+                                       <div key={question.id}>
+                                          <div class="slds-grid slds-wrap">
+                                             <div class="slds-col slds-size_1-of-12">
+                                                <span>
+                                                   <div class="slds-m-top_large slds-m-left_large">
+                                                      <lightning-input type="radio" disabled></lightning-input>
+                                                   </div>
+                                                </span>
+                                             </div>
+                                             <div class="slds-col slds-size_10-of-12">
+                                                <span>
+                                                   <lightning-input data-page={pageIndex} data-id={questionIndex} data-rad = {radioIndex} type="text" value={radio.value} onchange={handleRadioChange}></lightning-input>
+                                                </span>
+                                             </div>
+                                             <div class="slds-col slds-size_1-of-12">
+                                                <span>
+                                                   <div class="slds-m-top_custome slds-m-left_large">
+                                                      <lightning-button data-page={pageIndex} data-id={questionIndex} data-rad = {radioIndex} variant="destructive" label="X" onclick={handleDeleteRadio} ></lightning-button>
+                                                   </div>
+                                                </span>
+                                             </div>
+                                          </div>   
+                                          
+                                       </div>
+                                    </template>
+                                    <div class="slds-m-around_medium slds-align_absolute-center">
+                                       <lightning-button data-page={pageIndex} data-id={questionIndex} variant="brand" label="+" onclick={handleAddRadio} ></lightning-button>
+                                    </div>
+                                    
+                                 </template>
+                     
+                     
+                                 <template lwc:elseif = {question.isCheckBoxField}> 
+                                    <template for:each = {question.checkBoxChoices} for:item="checkBox" for:index="checkBoxIndex">
+                                       <div key={question.id}>
+                                          <div class="slds-grid slds-wrap">
+                                             <div class="slds-col slds-size_1-of-12">
+                                                <span>
+                                                   <div class="slds-m-top_large slds-m-left_large">
+                                                      <lightning-input type="checkbox" disabled></lightning-input>
+                                                   </div>
+                                                   
+                                                </span>
+                                             </div>
+                                             <div class="slds-col slds-size_10-of-12">
+                                                <span>
+                                                   <lightning-input data-page={pageIndex} data-id={questionIndex} data-check = {checkBoxIndex} type="text" value={checkBox.value} onchange={handleCheckBoxChange}></lightning-input>
+                                                </span>
+                                             </div>
+                                             <div class="slds-col slds-size_1-of-12">
+                                                <span>
+                                                   <div class="slds-m-top_custome slds-m-left_large">
+                                                      <lightning-button data-page={pageIndex} data-id={questionIndex} data-check = {checkBoxIndex} variant="destructive" label="X" onclick={handleDeleteCheckBox} ></lightning-button>
+                                                   </div>
+                                                </span>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </template>
+                                    <div class="slds-m-around_medium slds-align_absolute-center">
+                                       <lightning-button data-page={pageIndex} data-id={questionIndex} variant="brand" label="+" onclick={handleAddCheckBox} ></lightning-button>
+                                    </div>
+                                    
+                                 </template>
+                     
+                                 <template lwc:elseif = {question.isRatingField}>
+                                    <lightning-input data-page={pageIndex} data-id={questionIndex} type="number" label="Min Scale" onchange={handleMinScale} value={question.minScale}></lightning-input>
+                                    <lightning-input data-page={pageIndex} data-id={questionIndex} type="number" label="Max Scale" onchange={handleMaxScale} value={question.maxScale}></lightning-input>
+                                 </template>
+                                 <div class="slds-m-around_medium slds-align_absolute-center">
+                                    <div class="slds-form-element">
+                                       <label class="slds-checkbox_toggle slds-grid">
+                                         <span class="slds-form-element__label slds-m-bottom_none">Required</span>
+                                         <input type="checkbox" data-page={pageIndex} data-id={questionIndex} value="checkbox-toggle-16" onchange={handleMandate} />
+                                         <span class="slds-checkbox_faux_container">
+                                           <span class="slds-checkbox_faux"></span>
+                                           <span class="slds-checkbox_on">Enabled</span>
+                                           <span class="slds-checkbox_off">Disabled</span>
+                                         </span>
+                                       </label>
+                                    </div>
+                                 </div>
+                                 
+                     
+                                 <div class="slds-m-around_medium">
+                                    <lightning-button data-page={pageIndex} data-id={questionIndex} variant="destructive" label="Delete this Question" onclick={handleDeleteQuestion} ></lightning-button>
+                                 </div>
+                                 
+                                 
+                              </div>
+                           </template>
+                     
+                           <lightning-button variant="brand" data-page={pageIndex} label="Add Question" onclick={handleAddQuestion} class="slds-m-around_medium"></lightning-button>
+                           
+                           <lightning-button variant="destructive" data-page={pageIndex} label="Delete this Page" class="slds-m-around_medium" onclick={handleDeletePage}></lightning-button>
+                        </div>
+                     </template>
+                  </div>
+                    
+                    <div class="slds-align_absolute-center">
+                     <div class="slds-m-around_medium">
+                        <lightning-button onclick={handleAddPage} label="Add page"></lightning-button>
+                     </div>
+                     
+                     <div class="slds-m-around_medium">
+                        <lightning-button variant="brand" label="Save Questions" onclick={handleSave}></lightning-button>
+                     </div>
                     </div>
               </lightning-card>
            </div>
         </lightning-tab>
         <lightning-tab label="Preview">
+         <div class="slds-align_absolute-center">
+            <h2>{title}</h2>
+         </div>
+            
            <div>
-              <template for:each={questions} for:item="preview" for:index="previewIndex">
-                 <div key={preview.id}>
-                    <div>{preview.question_text}</div>
-                    <template lwc:if={preview.isTextField}>
-                       <div>
-                          <lightning-input type="text" label="Response"></lightning-input>
-                       </div>
-                    </template>
-                    <template lwc:elseif={preview.isRadioField}>
-                       <template for:each={preview.radioChoices} for:item="radio">
-                          <div key={preview.id}>
-                             <lightning-input type="radio" label={radio.value}></lightning-input>
-                          </div>
-                       </template>
-                    </template>
-                    <template lwc:elseif={preview.isCheckBoxField}>
-                       <template for:each={preview.checkBoxChoices} for:item="check">
-                          <div key={preview.id}>
-                             <lightning-input type="checkbox" label={check.value}></lightning-input>
-                          </div>
-                       </template>
-                    </template>
-                    <template lwc:elseif={preview.isRatingField}>
-                       <div>
-                          <lightning-slider label="Rating" size="x-small" value="1" min={preview.minScale} max={preview.maxScale}></lightning-slider>
-                       </div>
-                    </template>
-                 </div>
-              </template>
+            <template for:each={pages} for:item="page" for:index="pageIndex">
+               <div key={page.id} class="slds-m-around_medium borderbox">
+                  <div class="slds-align_absolute-center">{pageIndex}</div>
+                  <template for:each={page.questions} for:item="preview" for:index="previewIndex">
+                     <div key={preview.id}>
+                        <div>{preview.question_text}</div>
+                        <template lwc:if={preview.isTextField}>
+                           <div>
+                              <lightning-input type="text" label="Response"></lightning-input>
+                           </div>
+                        </template>
+                        <template lwc:elseif={preview.isRadioField}>
+                           <template for:each={preview.radioChoices} for:item="radio">
+                              <div key={preview.id}>
+                                 <lightning-input type="radio" label={radio.value}></lightning-input>
+                              </div>
+                           </template>
+                        </template>
+                        <template lwc:elseif={preview.isCheckBoxField}>
+                           <template for:each={preview.checkBoxChoices} for:item="check">
+                              <div key={preview.id}>
+                                 <lightning-input type="checkbox" label={check.value}></lightning-input>
+                              </div>
+                           </template>
+                        </template>
+                        <template lwc:elseif={preview.isRatingField}>
+                           <div>
+                              <lightning-slider label="Rating" size="x-small" value="1" min={preview.minScale} max={preview.maxScale}></lightning-slider>
+                           </div>
+                        </template>
+                     </div>
+                  </template>
+               </div>
+            </template>
+              
            </div>
         </lightning-tab>
         <lightning-tab label="JSON Editor">

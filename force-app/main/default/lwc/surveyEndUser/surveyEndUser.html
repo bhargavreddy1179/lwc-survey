@@ -1,3 +1,38 @@
 <template>
-    
+   <div class="container">
+      <template for:each={surveyData} for:item="page" for:index="pageIndex">
+         <template for:each={page.questions} for:item="question" for:index="questionIndex">
+            <div key={page.id}>
+               <h3><strong>{question.question_text}</strong></h3>
+               <template lwc:if={question.isTextField}>
+                  <lightning-input data-page={pageIndex} data-quest={questionIndex} type="text" label="Enter Your Response" onchange={handleChange}></lightning-input>
+               </template>
+               <template lwc:elseif={question.isRadioField}>
+                  <template for:each={question.radioChoices} for:item="radio">
+                     <div key={question.id}>
+                        <lightning-input data-page={pageIndex} data-quest={questionIndex} type="radio" label={radio.value} name={question.question_text} value={radio.value} onchange={handleChange}></lightning-input>
+                     </div>
+                  </template>
+               </template>
+               <template lwc:elseif={question.isCheckBoxField}>
+                  <template for:each={question.checkBoxChoices} for:item="check">
+                     <div key={question.id}>
+                        <lightning-input data-page={pageIndex} data-quest={questionIndex} type="checkbox" label={check.value} name={check.id} value={check.value} onchange={handleChange}></lightning-input>
+                     </div>
+                  </template>
+               </template>
+               <template lwc:elseif={question.isRatingField}>
+                  <div>
+                     <lightning-slider data-page={pageIndex} data-quest={questionIndex} label="Rating" size="x-small" value="3" min={question.minScale} max={question.maxScale} onchange={handleChange}></lightning-slider>
+                  </div>
+               </template>
+            </div>
+         </template>
+      </template>
+      <div class="slds-m-around_medium slds-align_absolute-center">
+         <lightning-button variant="brand" label="Submit" onclick={submitSurvey}></lightning-button>
+      </div>
+      
+   </div>
+
 </template>

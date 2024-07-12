@@ -1,5 +1,5 @@
 import { LightningElement, track } from 'lwc';
-import createSurvey from '@salesforce/apex/SurveyController.createSurvey';
+import createSurvey from '@salesforce/apex/SurveyControllerPages.createSurvey';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Survey extends LightningElement {
